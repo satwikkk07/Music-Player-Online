@@ -87,3 +87,9 @@ The project provided practical exposure to how production-level web applications
 ---
 
 Built as part of my continuous learning journey with a focus on writing clean, scalable, and maintainable code.
+
+## Screenshots
+
+![Home Page](previewimg/home.png)
+
+
