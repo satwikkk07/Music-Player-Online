@@ -1,95 +1,70 @@
+# Music Player Online
 
+A responsive, Spotify-inspired music player built with HTML, CSS, JavaScript, and Node.js. Browse playlists, play the bundled tracks, and search for song previews.
 
-# Spotify Clone – Full Stack Music Streaming Application
+**[Open the live player](https://music-player-online-satwikkk07.onrender.com)**
 
-A Spotify-inspired full-stack music streaming application designed to demonstrate real-world frontend and backend integration, REST API design, and user-centric application architecture.
+## Preview
 
----
+[![Music Player Online home page](previewimg/Home.png)](https://music-player-online-satwikkk07.onrender.com)
 
 ## Features
 
-### Music Playback
+- Play, pause, skip, seek, and adjust the volume of bundled tracks
+- Browse playlists with artwork and descriptions
+- Search songs and artists using the iTunes Search API, then play available previews
+- Add searched songs to the favorites API
+- Responsive layout for desktop and mobile screens
 
-* Audio streaming with play, pause, next, and previous controls
-* Custom seek bar and volume control
-* Real-time playback progress tracking
+## Tech stack
 
-### Playlist and Content Management
+- **Frontend:** HTML, CSS, vanilla JavaScript
+- **Server:** Node.js and Express
+- **Music library:** Audio files and playlist metadata in `public/songs/`
+- **Search:** Apple iTunes Search API
+- **Hosting:** Render
 
-* Dynamic playlists served through backend APIs
-* Database-driven song and playlist organization
-* Playlist metadata including title, artwork, and track count
+## Run locally
 
-### User Management
+Requires Node.js 18 or newer.
 
-* User authentication with login and signup
-* User-specific playlists and favorites
-* Protected routes using token-based authentication
+```bash
+git clone https://github.com/satwikkk07/Music-Player-Online.git
+cd Music-Player-Online
+npm ci
+npm start
+```
 
-### UI and Responsiveness
+Open [http://localhost:5000](http://localhost:5000) in your browser.
 
-* Responsive card-based layout using CSS Grid
-* Mobile-first design with desktop optimization
-* Clean and intuitive Spotify-inspired interface
+## Project structure
 
----
+```text
+.
+├── css/                 # Stylesheets
+├── img/                 # Player and interface icons
+├── js/                  # Player and search behavior
+├── previewimg/          # Project screenshots
+├── public/songs/        # Playlist artwork, metadata, and audio
+├── server/              # Express API and server
+├── index.html
+└── render.yaml          # Render deployment configuration
+```
 
-## Tech Stack
+## API routes
 
-### Frontend
+| Method | Route | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/search?q=...` | Search songs and artists through iTunes |
+| `GET` | `/api/favorites` | Read saved favorites |
+| `POST` | `/api/favorites` | Add a song to favorites |
 
-* HTML5
-* CSS3 (Grid and Flexbox)
-* JavaScript (ES6+)
-* Fetch API for server communication
+## Deployment
 
-### Backend
+The live app is hosted on Render: **[music-player-online-satwikkk07.onrender.com](https://music-player-online-satwikkk07.onrender.com)**.
 
-* Node.js
-* Express.js
-* RESTful APIs
+The free Render service may sleep when idle and take a little longer to respond on its first request. Favorites are stored in a local JSON file, so they are intended for demonstration and may reset when the service restarts.
 
-### Database
+## Notes
 
-* MongoDB
-* Mongoose ODM
-
-### Authentication and Tools
-
-* JWT-based authentication
-* bcrypt for password hashing
-* Git and GitHub for version control
-
----
-
-## Learning Outcomes
-
-This project helped me gain hands-on experience with full-stack development by working on:
-
-* End-to-end application flow from UI to database
-* REST API design and integration
-* Authentication and authorization handling
-* Asynchronous data fetching and state management
-* Debugging real-world application issues
-
-The project provided practical exposure to how production-level web applications are structured and maintained.
-
----
-
-## Future Improvements
-
-* Advanced search and recommendation features
-* Admin dashboard for content management
-* Cloud storage integration for media files
-* Performance optimization and caching
-* Deployment using CI/CD pipelines
-
----
-
-Built as part of my continuous learning journey with a focus on writing clean, scalable, and maintainable code.
-
-## Screenshots
-
-![Home Page](previewimg/home.png)
-
-
+This repository currently provides a music player and a small search/favorites API. It does not include user authentication or a MongoDB database.

@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: spotify-clone
+    runtime: node
+    buildCommand: npm ci
+    startCommand: npm start
+    plan: free

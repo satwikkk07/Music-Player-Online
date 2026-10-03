@@ -1,17 +1,37 @@
 const express = require("express");
-const cors = require("cors");
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
+const rootDir = path.join(__dirname, "..");
+const songsDir = path.join(rootDir, "public", "songs");
 
-app.use(cors());
 app.use(express.json());
+app.use("/css", express.static(path.join(rootDir, "css")));
+app.use("/img", express.static(path.join(rootDir, "img")));
+app.use("/js", express.static(path.join(rootDir, "js")));
+app.use("/songs", express.static(songsDir));
 
-// test route
-app.get("/", (req, res) => {
-  res.send("Spotify Clone Backend is running");
+// The player reads directory listings to discover playlists and their tracks.
+app.get("/songs", (_req, res) => {
+  const folders = fs.readdirSync(songsDir, { withFileTypes: true })
+    .filter(entry => entry.isDirectory())
+    .map(entry => entry.name);
+  res.type("html").send(folders.map(folder => `<a href="/songs/${encodeURIComponent(folder)}/">${folder}</a>`).join(""));
 });
 
+app.get("/songs/:folder", (req, res, next) => {
+  const folder = path.basename(req.params.folder);
+  const folderPath = path.join(songsDir, folder);
+  if (!fs.existsSync(folderPath) || !fs.statSync(folderPath).isDirectory()) return next();
+  const tracks = fs.readdirSync(folderPath)
+    .filter(file => file.toLowerCase().endsWith(".mp3"))
+    .map(file => `<a href="/songs/${encodeURIComponent(folder)}/${encodeURIComponent(file)}">${file}</a>`);
+  res.type("html").send(tracks.join(""));
+});
+
+app.get("/", (_req, res) => res.sendFile(path.join(rootDir, "index.html")));
 
 // 🔍 SEARCH SONGS & ARTISTS (iTunes API)
 app.get("/api/search", async (req, res) => {
@@ -43,9 +63,6 @@ app.get("/api/search", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch songs" });
   }
 });
-
-const fs = require("fs");
-const path = require("path");
 
 const favFile = path.join(__dirname, "favorites.json");
 

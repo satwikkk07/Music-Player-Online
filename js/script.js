@@ -156,7 +156,7 @@ async function main() {
     const query = document.getElementById("searchInput").value.trim();
     if (!query) return;
 
-    const response = await fetch(`http://localhost:5000/api/search?q=${query}`);
+    const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
     const results = await response.json();
 
     renderSearchResults(results);
@@ -220,7 +220,7 @@ songsData.forEach(song => {
   li.querySelector(".favBtn").addEventListener("click", async (e) => {
     e.stopPropagation();
 
-    await fetch("http://localhost:5000/api/favorites", {
+    await fetch("/api/favorites", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
